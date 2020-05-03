@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block body%}
+    <div class = "row" id="rowcard">
+        {% if request.endpoint == 'get_movies' %}
+            {% if data|length == 0 %}
+                <p>No results</p>
+            {% endif %}
+            {% for item in data %}
+                <div class ="col-md-4 pt-4">
+                    <div class="card rounded border border-light" style="width: 300px; height: 400px;">
+                        <img class="card-img-top img-fluid" src="{{item['url_image']}}" style="width: 100%; height: 200px; object-fit: fill;">
+                        <div class="card-body d-flex flex-column" style="background: #141E30;background: -webkit-linear-gradient(to right, #243B55, #141E30); background: linear-gradient(to right, #243B55, #141E30);">
+                            <h5 class="card-title">{{item['title']}}</h5>
+                                <p class="card-text">{{item['release_date']}}</p>
+                            <p class="text-truncate">
+                                {{item['overview']}}
+                            </p>
+                            <a href="/movie/{{item['_id']}}" class="btn btn-primary mt-auto">More Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            {% for item in data %}
+                <div class ="col-md-4 pt-4">
+                    <div class="card rounded border border-light" style="width: 300px; height: 400px;">
+                        <img class="card-img-top img-fluid" src="{{ url_for('static', filename='img/' + item['images'][0]) }}" style="width: 100%; height: 200px; object-fit: fill;">
+                        <div class="card-body d-flex flex-column" style="background: #141E30;background: -webkit-linear-gradient(to right, #243B55, #141E30); background: linear-gradient(to right, #243B55, #141E30);">
+                            <h5 class="card-title">{{item['name']}}</h5>
+                            {% if item['character'] %}
+                                <p class="card-text">{{item['character']}}</p>
+                            {% endif %}
+                            <p class="text-truncate">
+                                {{item['biography']}}
+                            </p>
+                            <a href="/hero/{{item['_id']}}" class="btn btn-primary mt-auto">More Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+{% endblock %}

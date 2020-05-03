@@ -1,0 +1,94 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+<form method="POST" action="/update/{{data['_id']}}">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="display-3">{{data['name']}}</h1>
+            <hr style="border-top: 1px solid #8c8b8b;">
+        </div>
+        <div class="col-md-7 pt-4">
+            <h2 class="display-5">Biography</h2>
+            <hr style="border-top: 1px solid #8c8b8b;">
+            <div class="form-group"> 
+                <textarea class="form-control border border-light" rows="20" name="biography" style="background: transparent; color: white; resize: none"> {{bio}}</textarea>
+            </div>
+            <div class="col-md-12 pt-2">
+                <h2 class="display-5">Movies</h2>
+                <hr style="border-top: 1px solid #8c8b8b;"> 
+                <ul class="list-group list-group-flush" style="height: 70vh; overflow-y: auto;">
+                    {% for movie in movies %}
+                        <li class="list-group-item list-group-item-action"><a href="/movie/{{movie['_id']}}" class="text-info">{{movie['title']}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-5 pt-5">
+            <div class="card rounded" style="width: 450px; height: 360px;">
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="width:450px;height:360px;">
+                        <div class="carousel-inner">
+                            {% for image in images %}
+                                <div class="carousel-item {% if loop.index == 1 %} active {% endif %}" id="slide{{ loop.index }}">
+                                    <img class="card-img-top" src="{{ url_for('static', filename='img/' + image) }}" style="width:450px;height:360px;"> 
+                                </div>
+                            {% endfor %} 
+                        </div>
+                        {% if data['images']|length != 1 %}
+                            <a class="carousel-control-prev" href="#carousel-example-generic" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon bg-primary" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carousel-example-generic" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon bg-primary" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        {% endif %}
+                    </div>
+                <div class="card-body">
+                    <div class="form-group form-inline">  
+                        <label class="card-title mr-2">Name: </label> 
+                        <input class="form-control border border-light" type="text" value="{{data['name']}}" name="name" style="background: transparent; color: white;">
+                    </div>
+                    <hr>
+                    {% if data['character'] %}
+                        <div class="form-group form-inline">  
+                            <label class="card-text mr-2">Character: </label> 
+                            <input class="form-control border border-light" type="text" value="{{data['character']}}" name="character" style="background: transparent; color: white;">
+                        </div>
+                        <hr>
+                    {% endif %}
+                    {% if data['equipment']%}
+                        <div class="form-group form-inline">  
+                            <label class="card-text mr-2">Equipment: </label> 
+                            <input class="form-control border border-light" type="text" value="{{data['equipment']}}" name="equipment" style="background: transparent; color: white;">
+                        </div>
+                        <hr>
+                    {% endif %}
+                    <div class="form-group form-inline">  
+                        <label class="card-text mr-2">Year of appearance: </label> 
+                        <input class="form-control border border-light" type="number" value="{{data['year']}}" name="year" style="background: transparent; color: white;">
+                    </div>
+                    <hr>
+                    {% if data['house'] == 'MARVEL' %}
+                        <img class="card-img-bottom" src="{{ url_for('static', filename='img/marvel.png' ) }}" style="width: 180px;">
+                    {% else %}
+                        <img class="card-img-bottom" src="{{ url_for('static', filename='img/dc.png' ) }}" style="width: 125px;">
+                    {% endif %}
+                    <hr>
+                    <div class="form-group form-inline">  
+                        <label class="card-text mr-2">Amount of images: </label> 
+                        <input class="form-control border border-light" type="number" min="1" max="{{data['images'] | length}}" value="{{data['limit_images']}}" name="limit_images" style="background: transparent; color: white;">
+                    </div>
+                    <hr>
+                    <div class="btn-group pb-3" role="group">
+                        <a href="/" type="button" class="btn btn-dark">Back</a>
+                        <button type="submit" class="btn btn-success">Update</button>
+                        <a href="/delete/{{data['_id']}}" type="button" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>  
+        </div> 
+
+    </div>
+</form> 
+{% endblock %}

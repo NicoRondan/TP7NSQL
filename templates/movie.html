@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+    <div class="row align-items-center">
+        <div class="col-md-12 text-center">
+            <h1 class="display-3">{{data['title']}} ({{date}})</h1>
+            <hr style="border-top: 1px solid #8c8b8b;">     
+        </div>
+        <div class="col-md-6 pt-4">
+            <img src="{{data['url_image']}}" alt="image movie" style="width: 100%; height:500px; object-fit: fill;" class="img-fluid">
+        </div>
+        <div class="col-md-6 mt-4 pt-4">
+            <div class="jumbotron jumbotron-fluid mt-2" style="height:500px;">
+                <div class="container">
+                    <h2 class="display-5">Overview</h2>
+                     <hr class="my-4" style="border-top: 1px solid #8c8b8b;">
+                    <p class="lead">{{data['overview']}}</p>
+                </div>  
+            </div>   
+        </div>   
+    </div>
+    <div class="row pt-4">
+        <div class="col-md-6">   
+            <h2 class="display-5">Cast</h2>
+            <hr style="border-top: 1px solid #8c8b8b;"> 
+            <ul class="list-group" style="height: 70vh; overflow-y: auto;">
+                {% for actor in data['cast'] %}
+                    <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-start">
+                        {% if actor['profile_path'] != None %}
+                            <div style="max-width: 45px;">
+                                <img src="https://image.tmdb.org/t/p/w500{{actor['profile_path']}}" class="img-fluid">
+                            </div>
+                            <div class="ml-3 pt-2" style="vertical-align: middle;">
+                                <p>{{actor['name']}}</p>
+                                <p> {{actor['character']}}</p>
+                            </div>
+                        {% else %}
+                            <p>{{actor['name']}}</p>
+                            <p class="ml-3"> {{actor['character']}}</p>
+                        {% endif %} 
+                    </li>
+                {% endfor %}
+            </ul>
+        </div> 
+        <div class="col-md-6">
+            <h2 class="display-5">Heroes</h2>
+            <hr style="border-top: 1px solid #8c8b8b;"> 
+            <ul class="list-group list-group-flush" style="height: 70vh; overflow-y: auto;">
+                {% for hero in heroes %}
+                    <li class="list-group-item list-group-item-action"><a href="/hero/{{hero['_id']}}" class="text-info">{{hero['name']}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

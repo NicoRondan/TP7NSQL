@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/darkly/bootstrap.min.css" rel="stylesheet" integrity="sha384-rCA2D+D9QXuP2TomtQwd+uP50EHjpafN+wruul0sXZzX/Da7Txn4tB9aLMZV4DZm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background: #000000;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+        /* Quitar arrows del input tipo number */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+        /* para navegador Firefox */
+        input[type=number] {
+        -moz-appearance: textfield;
+        }
+    </style>
+    <title>Superhero API</title>
+</head>
+<body>
+    {% include 'navigation.html' %}
+    <div class="container pt-4">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong> 
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}      
+        {% endwith %}
+        {% block body%}
+        {% endblock %}
+        <br/>
+    </div>
+    <script>
+        function filter() {
+            var txtValue;
+            var input = document.getElementById('myinput');
+            var inputTxt = input.value.toLowerCase();
+            var row = document.getElementById('rowcard');
+            var card = row.getElementsByClassName('card-body d-flex flex-column');
+            var col = row.getElementsByClassName('col-md-4 pt-4');
+
+            for (i = 0; i < card.length; i++) {
+                //Obtener el primer h5 hijo de la card
+                h5 = card[i].children[0];
+                //Obtener el valor titulo de la card
+                txtValue = h5.textContent || h5.innerText;
+                //Verifico que el input coincida con el titulo de la card, o sea, el nombre del heroe
+                if (txtValue.toLowerCase().indexOf(inputTxt) > -1) {
+                col[i].style.display = "";
+                } else {
+                //Si no coincide oculto la columna
+                col[i].style.display = "none";
+                }
+            }
+            } 
+    </script>
+</body>
+</html>
