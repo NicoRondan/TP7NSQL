@@ -3,7 +3,7 @@ import json
 
 def connect_db():
     try:
-        client = MongoClient(host='localhost', port=27017)
+        client = MongoClient(host='db', port=27017)
         db = client["superheroes"]
         return db
     except Exception as err:

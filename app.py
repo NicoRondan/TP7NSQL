@@ -322,7 +322,6 @@ def get_movie(id):
             #obtener nombre del heroe sin espacios en blanco
             name = hero['character'].split('/')[1].strip()
             
-            print(name, character)
             #Buscar el heroe segun nombre del personaje o heroe
             result = db.heroes.find_one({'$or': [{'name': { '$in': [ re.compile(name, re.IGNORECASE), re.compile(character, re.IGNORECASE) ]}}, {'character':  { '$in': [ re.compile(name, re.IGNORECASE), re.compile(character, re.IGNORECASE) ]}} ]}, {'_id': 1})
             if result != None and result != []:
@@ -347,4 +346,4 @@ def not_found(error=None):
 
 
 if __name__ == "__main__":
-    app.run(host='localhost', port='5000', debug=True)
+    app.run(host='src', port='5000', debug=True)
